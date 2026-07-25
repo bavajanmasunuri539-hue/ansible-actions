@@ -1,0 +1,57 @@
+name: Docker Image Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+
+      env:
+        description: "Select Environment"
+        required: true
+        type: choice
+        options:
+          - dev
+          - qa
+          - prod
+
+      docker_image_name:
+        description: "Enter Docker Image Name"
+        required: true
+        type: string
+
+      reponame:
+        description: "Select Repository Type"
+        required: true
+        type: choice
+        options:
+          - normal repo
+          - snapshot
+
+      image_version:
+        description: "Enter Image Version"
+        required: true
+        type: number
+        default: 120
+
+      push:
+        description: "Push Docker Image"
+        required: true
+        type: boolean
+        default: false
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Display Inputs
+        run: |
+          echo "Environment: ${{ inputs.env }}"
+          echo "Docker Image Name: ${{ inputs.docker_image_name }}"
+          echo "Repository: ${{ inputs.reponame }}"
+          echo "Image Version: ${{ inputs.image_version }}"
+          echo "Push: ${{ inputs.push }}"
