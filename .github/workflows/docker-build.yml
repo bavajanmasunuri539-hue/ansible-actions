@@ -1,0 +1,50 @@
+name: Docker Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Select Environment"
+        required: true
+        type: choice
+        options:
+          - dev
+          - test
+          - prod
+
+      docker_image_name:
+        description: "Docker Image Name"
+        required: true
+        type: string
+
+      reponame:
+        description: "Select Repository"
+        required: true
+        type: choice
+        options:
+          - normal-repo
+          - snapshot
+
+      image_version:
+        description: "Image Version"
+        required: true
+        default: "120"
+        type: string
+
+      push:
+        description: "Push Docker Image?"
+        required: true
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Display Inputs
+        run: |
+          echo "Environment: ${{ inputs.env }}"
+          echo "Docker Image: ${{ inputs.docker_image_name }}"
+          echo "Repository: ${{ inputs.reponame }}"
+          echo "Version: ${{ inputs.image_version }}"
+          echo "Push: ${{ inputs.push }}"
